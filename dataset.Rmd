@@ -1,0 +1,144 @@
+---
+title: "A collection of data on the Auckland Volcanic Field"
+author: "AHC"
+date: "2023-07-16"
+output: html_document
+---
+
+## Packages
+
+```{r packages, warning=F, message=F}
+#install.packages(c("tidyverse", "httr", "XML"))
+# For data cleaning, usability, and output
+library(tidyverse)
+
+# To import data from Wikipedia
+library(httr)
+library(XML)
+```
+
+## Background
+
+This is drawn from the [Wikipedia article on the Auckland Volcanic Field](https://en.m.wikipedia.org/w/index.php?title=Auckland_volcanic_field&oldid=1146734511), and I'm using this as practice in
+extracting data, making it pretty and presentable, and hopefully being able to use this practically as well
+to import nice reference points of all of the volcanoes. 
+
+```{r import}
+# Import data from wikipedia
+# From user:schnee response on https://stackoverflow.com/questions/7407735/importing-wikipedia-tables-in-r
+
+url <- "https://en.m.wikipedia.org/w/index.php?title=Auckland_volcanic_field&oldid=1146734511"
+        # This is a permenant link to the exact data I used, use the following at your own risk:
+#url <- "https://en.m.wikipedia.org/wiki/Auckland_volcanic_field"
+
+r <- GET(url)
+
+doc <- readHTMLTable(
+  doc=content(r, "text"), header = T)
+```
+
+Now that we have the data, let's clean it up a little bit.
+
+```{r cleaning, warning=F}
+volcanoes <- 
+  tibble(doc[[2]]) %>% 
+  
+  # Cleaning headers -----------------------------------------------------------
+  rename(
+    Volcanoes = `Volcanoes\n`,
+    Age = `Age (thousand years)[38]`,
+    Height = `Height\n`,
+    Location = `Location (Coordinates)\n`,
+    Refs = `Refs\n`,
+    Images = `Images\n`
+  ) %>% 
+  
+  # Feel free to keep the Refs & Images, I don't find them useful --------------
+  select(!c(Refs, Images)) %>% 
+  
+  # Cleaning Height data -------------------------------------------------------
+  separate(col = Height, into = c("Height (m)", NA, "Height (ft)", NA, "Quarried")) %>% 
+  mutate(
+    `Height (m)` = as.integer(`Height (m)`),
+    `Height (ft)` = as.integer(`Height (ft)`),
+    Quarried = ifelse(Quarried == "quarried", "T", "F"),
+    Quarried = replace_na(Quarried, "F"),
+    Quarried = as.logical(Quarried)
+      # I don't know if multiple mutates in a row is kosher, but it works for me
+  ) %>% 
+  
+  # Cleaning coordinates, only need one of these after all ---------------------
+  separate(col = Location, into = c(NA, NA, "Location"), sep = "/") %>% 
+    
+  # Cleaning age ---------------------------------------------------------------
+  separate(col = Age, into = c("Age", "Uncertainty (±)"), sep = "±")
+  
+  # Manually update the values bc u can't be fucked to figure out the functions to do it
+  volcanoes[53,2] <- "30.55"
+  volcanoes[53,3] <- "0.45"
+  volcanoes[3,2] <- "130"
+  volcanoes[27,2] <- "45"
+  volcanoes[31,2] <- "130"
+  volcanoes[33,2] <- "0.62"
+  volcanoes[47,2] <- "28.0"
+    # Yes, this is horribly messy and gross. How'd you know? (but it works soooooo idc)
+
+  volcanoes <- volcanoes %>% 
+  mutate(
+    Age = as.numeric(Age),
+    Age = Age * 1000,
+    Age = as.integer(Age),
+    `Uncertainty (±)` = as.numeric(`Uncertainty (±)`),
+    `Uncertainty (±)` = `Uncertainty (±)` * 1000,
+    `Uncertainty (±)` = as.integer(`Uncertainty (±)`)
+  )
+  
+  # That one funny name
+  volcanoes[52,1] <- "Whakamuhu / Saint Heliers / Glover Park"
+
+# Data output for however you want it ------------------------------------------
+write_csv(volcanoes, "volcanoes.csv")
+  
+# Print dataset ================================================================
+
+knitr::kable(volcanoes)
+```
+
+## Now what?
+
+Well, ain't that the question. For me, I create this because I plan on visiting all 53(!) 
+volcanic peaks in Auckland. Seems fun, and I don't have anything better to do. I went through 
+the hassle of making this into a google list, but it's deeply inaccurate (attached to nearby places rather than 
+coordinates) so I think I need to remake it / find some fun OSM (Open Street Map) based thing.
+
+Some fun stats (now easy to do with the data already in R):
+```{r stats, echo=FALSE}
+volcanoes %>% 
+  summarize(
+    `Number of volcanoes` = n(),
+    `Total Height (m)` = sum(`Height (m)`, na.rm = TRUE),
+    `Total Height (ft)` = sum(`Height (ft)`, na.rm = TRUE),
+    `Mean Age` = mean(Age, na.rm = TRUE),
+    `Number of Quarried sites` = sum(Quarried, na.rm = TRUE)
+  ) %>% 
+  mutate(
+    `Mean Age` = as.integer(`Mean Age` / 1000)
+  ) %>% 
+  rename(
+    `Mean Age (thousand years)` = `Mean Age`
+  ) %>% 
+  knitr::kable()
+```
+Anyways. Have fun, enjoy the data! I might leave an update on any eventual updates,
+or perhaps a little table that is updated with info on the sites I have visited so far. 
+Peace and love <3 - alice
+
+## Code availability
+
+The source code for this project is available at [https://github.com/legallyahc/volcanic](https://github.com/legallyahc/volcanic), with all work done right in this RMarkdown file (`dataset.rmd`) :3. 
+
+## Copyright info
+
+This project is based on information from Wikipedia which was authored by Wikipedia contributors and is licensed under [CC-BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). 
+This project is licensed under the [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html), 
+a compatible license with CC-BY-SA 4.0.
