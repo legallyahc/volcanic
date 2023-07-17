@@ -1,8 +1,10 @@
 ---
 title: "A collection of data on the Auckland Volcanic Field"
 author: "AHC"
-date: "2023-07-16"
-output: html_document
+date: "2023-07-17"
+output: 
+  html_document:
+    code_folding: show
 ---
 
 ## Packages
@@ -19,16 +21,17 @@ library(XML)
 
 ## Background
 
-This is drawn from the [Wikipedia article on the Auckland Volcanic Field](https://en.m.wikipedia.org/w/index.php?title=Auckland_volcanic_field&oldid=1146734511), and I'm using this as practice in
-extracting data, making it pretty and presentable, and hopefully being able to use this practically as well
-to import nice reference points of all of the volcanoes. 
+This is whole thing is drawn from the [Wikipedia article on the Auckland Volcanic Field](https://en.m.wikipedia.org/w/index.php?title=Auckland_volcanic_field&oldid=1146734511). 
+I'm using this as practice in extracting data, making it pretty and presentable, 
+and hopefully being able to use this practically as well to import nice reference 
+points of all of the volcanoes. (Anti-skill loss project my beloved <3).
 
 ```{r import}
-# Import data from wikipedia
+# Import data from Wikipedia
 # From user:schnee response on https://stackoverflow.com/questions/7407735/importing-wikipedia-tables-in-r
 
 url <- "https://en.m.wikipedia.org/w/index.php?title=Auckland_volcanic_field&oldid=1146734511"
-        # This is a permenant link to the exact data I used, use the following at your own risk:
+        # This is a permanent link to the exact data I used (accessed on 2023-07-17), use the following at your own risk:
 #url <- "https://en.m.wikipedia.org/wiki/Auckland_volcanic_field"
 
 r <- GET(url)
@@ -37,7 +40,7 @@ doc <- readHTMLTable(
   doc=content(r, "text"), header = T)
 ```
 
-Now that we have the data, let's clean it up a little bit.
+Now that we have imported the data, let's clean it up a little bit.
 
 ```{r cleaning, warning=F}
 volcanoes <- 
@@ -106,10 +109,15 @@ knitr::kable(volcanoes)
 
 ## Now what?
 
-Well, ain't that the question. For me, I create this because I plan on visiting all 53(!) 
-volcanic peaks in Auckland. Seems fun, and I don't have anything better to do. I went through 
-the hassle of making this into a google list, but it's deeply inaccurate (attached to nearby places rather than 
-coordinates) so I think I need to remake it / find some fun OSM (Open Street Map) based thing.
+Well, ain't that the question. For me, I created this because I plan on visiting all `r nrow(volcanoes)`(!) 
+historic volcanoes in Auckland. Seems fun, and I don't have anything better to do. I went through 
+the hassle of making this into a google list, but it's deeply inaccurate (I attached each point to a nearby
+place rather than its coordinates) so I plan on remaking based on the coordinates provided in the Wiki page,
+and I might try to find some fun OSM (Open Street Map) based thing. However, the points seem a little 
+inaccurate... I will report back from my adventures with any important changes.
+
+Feel free to play with this, if you want a neat little dataset or some practice in R by trying to reproduce 
+this.
 
 Some fun stats (now easy to do with the data already in R):
 ```{r stats, echo=FALSE}
@@ -131,7 +139,41 @@ volcanoes %>%
 ```
 Anyways. Have fun, enjoy the data! I might leave an update on any eventual updates,
 or perhaps a little table that is updated with info on the sites I have visited so far. 
+
 Peace and love <3 - alice
+
+Version 1.1: added volcanoe tracker.
+
+## Volcanoe Tracker
+
+```{r visited, message=F}
+# Yes I tried to make a Shiny app. Yes I realized about an hour into it that it would not be static.
+# Yes this hurts me.
+visited <- tibble(
+  Volcanoes = c("Maungauika / North Head", "Takarunga / Mount Victoria", "Albert Park Volcano"),
+  Visited = T, # Redundant column for future filters or whatever idk
+  `Date visited` = c("2023-07-11", "2023-07-11", "2023-07-17")
+)
+
+bigvisited <- inner_join(volcanoes, visited) %>% 
+  select(Volcanoes, `Date visited`, Age, `Height (ft)`, Location) %>% 
+  mutate(
+    `Date visited` = as.Date(`Date visited`)
+  )
+
+summaryvisited <- inner_join(volcanoes, visited) %>% 
+  summarize(
+    `Height (ft)` = sum(`Height (ft)`, na.rm = T),
+    Age = as.integer(mean(Age), na.rm = T),
+    Volcanoes = "Mean Age / Total Height"
+  )
+
+knitr::kable(
+  bind_rows(bigvisited, summaryvisited) %>% 
+    arrange(`Date visited`, Volcanoes)
+)
+```
+Last updated 2023-07-17. 
 
 ## Code availability
 
@@ -140,5 +182,9 @@ The source code for this project is available at [https://github.com/legallyahc/
 ## Copyright info
 
 This project is based on information from Wikipedia which was authored by Wikipedia contributors and is licensed under [CC-BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). 
-This project is licensed under the [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html), 
-a compatible license with CC-BY-SA 4.0.
+This project is licensed under the [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html) 
+or later, a compatible license with CC-BY-SA 4.0.
+
+<br>
+
+Originally published on 2023-07-16. Version 1.1.
