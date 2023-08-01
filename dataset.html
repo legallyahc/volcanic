@@ -11,7 +11,7 @@
 
 <meta name="author" content="AHC" />
 
-<meta name="date" content="2023-07-17" />
+<meta name="date" content="2023-08-01" />
 
 <title>A collection of data on the Auckland Volcanic Field</title>
 
@@ -441,7 +441,7 @@ display: none;
 <h1 class="title toc-ignore">A collection of data on the Auckland
 Volcanic Field</h1>
 <h4 class="author">AHC</h4>
-<h4 class="date">2023-07-17</h4>
+<h4 class="date">2023-08-01</h4>
 
 </div>
 
@@ -1093,9 +1093,9 @@ the sites I have visited so far.</p>
 <pre class="r"><code># Yes I tried to make a Shiny app. Yes I realized about an hour into it that it would not be static.
 # Yes this hurts me.
 visited &lt;- tibble(
-  Volcanoes = c(&quot;Maungauika / North Head&quot;, &quot;Takarunga / Mount Victoria&quot;, &quot;Albert Park Volcano&quot;),
+  Volcanoes = c(&quot;Maungauika / North Head&quot;, &quot;Takarunga / Mount Victoria&quot;, &quot;Albert Park Volcano&quot;, &quot;Maungakiekie / One Tree Hill&quot;, &quot;Te Kōpuke / Tītīkōpuke / Mount St John&quot;, &quot;Ōhinerau / Mount Hobson&quot;, &quot;Ohuiarangi / Pigeon Mountain&quot;),
   Visited = T, # Redundant column for future filters or whatever idk
-  `Date visited` = c(&quot;2023-07-11&quot;, &quot;2023-07-11&quot;, &quot;2023-07-17&quot;)
+  `Date visited` = c(&quot;2023-07-11&quot;, &quot;2023-07-11&quot;, &quot;2023-07-17&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-30&quot;)
 )
 
 bigvisited &lt;- inner_join(volcanoes, visited) %&gt;% 
@@ -1117,11 +1117,11 @@ knitr::kable(
 )</code></pre>
 <table style="width:100%;">
 <colgroup>
-<col width="33%" />
-<col width="16%" />
-<col width="8%" />
-<col width="14%" />
-<col width="27%" />
+<col width="41%" />
+<col width="13%" />
+<col width="7%" />
+<col width="12%" />
+<col width="24%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1155,15 +1155,43 @@ knitr::kable(
 <td align="left">-36.8486; 174.7673</td>
 </tr>
 <tr class="even">
+<td align="left">Maungakiekie / One Tree Hill</td>
+<td align="left">2023-07-22</td>
+<td align="right">67000</td>
+<td align="right">597</td>
+<td align="left">-36.90000; 174.78306</td>
+</tr>
+<tr class="odd">
+<td align="left">Te Kōpuke / Tītīkōpuke / Mount St John</td>
+<td align="left">2023-07-22</td>
+<td align="right">75300</td>
+<td align="right">413</td>
+<td align="left">-36.883431; 174.780196</td>
+</tr>
+<tr class="even">
+<td align="left">Ōhinerau / Mount Hobson</td>
+<td align="left">2023-07-22</td>
+<td align="right">34200</td>
+<td align="right">469</td>
+<td align="left">-36.877814; 174.786156</td>
+</tr>
+<tr class="odd">
+<td align="left">Ohuiarangi / Pigeon Mountain</td>
+<td align="left">2023-07-30</td>
+<td align="right">23400</td>
+<td align="right">180</td>
+<td align="left">-36.888846; 174.903116</td>
+</tr>
+<tr class="even">
 <td align="left">Mean Age / Total Height</td>
 <td align="left">NA</td>
-<td align="right">89100</td>
-<td align="right">445</td>
+<td align="right">66742</td>
+<td align="right">2104</td>
 <td align="left">NA</td>
 </tr>
 </tbody>
 </table>
-<p>Last updated 2023-07-17.</p>
+<p>Last updated 2023-08-01.</p>
 </div>
 <div id="code-availability" class="section level2">
 <h2>Code availability</h2>
@@ -1178,7 +1206,11 @@ authored by Wikipedia contributors and is licensed under <a href="https://creati
 This project is licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU General Public
 License v3</a> or later, a compatible license with CC-BY-SA 4.0.</p>
 <p><br></p>
-<p>Originally published on 2023-07-16. Version 1.1.</p>
+<p>Originally published on 2023-07-16. Version 1.2.</p>
+<div id="back-to-en-cours-homepage" class="section level5">
+<h5><a href="https://encours.neocities.org/">Back to En cours
+homepage</a></h5>
+</div>
 </div>
 
 
