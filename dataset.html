@@ -242,7 +242,7 @@ window.initializeCodeFolding = function(show) {
     $(this).detach().appendTo(div);
 
     // add a show code button right above
-    var showCodeText = $('<span>' + (showThis ? 'Hide' : 'Code') + '</span>');
+    var showCodeText = $('<span>' + (showThis ? 'Hide' : 'Show') + '</span>');
     var showCodeButton = $('<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm code-folding-btn pull-right float-right"></button>');
     showCodeButton.append(showCodeText);
     showCodeButton
@@ -268,7 +268,7 @@ window.initializeCodeFolding = function(show) {
     //   * Change text
     //   * add a class for intermediate states styling
     div.on('hide.bs.collapse', function () {
-      showCodeText.text('Code');
+      showCodeText.text('Show');
       showCodeButton.addClass('btn-collapsing');
     });
     div.on('hidden.bs.collapse', function () {
@@ -1092,10 +1092,11 @@ the sites I have visited so far.</p>
 <h2>Volcanoe Tracker</h2>
 <pre class="r"><code># Yes I tried to make a Shiny app. Yes I realized about an hour into it that it would not be static.
 # Yes this hurts me.
+volcanoes &lt;- read_csv(&quot;volcanoes.csv&quot;)
 visited &lt;- tibble(
-  Volcanoes = c(&quot;Maungauika / North Head&quot;, &quot;Takarunga / Mount Victoria&quot;, &quot;Albert Park Volcano&quot;, &quot;Maungakiekie / One Tree Hill&quot;, &quot;Te Kōpuke / Tītīkōpuke / Mount St John&quot;, &quot;Ōhinerau / Mount Hobson&quot;, &quot;Ohuiarangi / Pigeon Mountain&quot;),
+  Volcanoes = c(&quot;Maungauika / North Head&quot;, &quot;Takarunga / Mount Victoria&quot;, &quot;Albert Park Volcano&quot;, &quot;Maungakiekie / One Tree Hill&quot;, &quot;Te Kōpuke / Tītīkōpuke / Mount St John&quot;, &quot;Ōhinerau / Mount Hobson&quot;, &quot;Ohuiarangi / Pigeon Mountain&quot;, &quot;Te Kopua Kai-a-Hiku / Panmure Basin&quot;, &quot;Onepoto&quot;),
   Visited = T, # Redundant column for future filters or whatever idk
-  `Date visited` = c(&quot;2023-07-11&quot;, &quot;2023-07-11&quot;, &quot;2023-07-17&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-30&quot;)
+  `Date visited` = c(&quot;2023-07-11&quot;, &quot;2023-07-11&quot;, &quot;2023-07-17&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-30&quot;, &quot;2023-08-03&quot;, &quot;2023-08-03&quot;)
 )
 
 bigvisited &lt;- inner_join(volcanoes, visited) %&gt;% 
@@ -1183,15 +1184,29 @@ knitr::kable(
 <td align="left">-36.888846; 174.903116</td>
 </tr>
 <tr class="even">
+<td align="left">Onepoto</td>
+<td align="left">2023-08-03</td>
+<td align="right">187600</td>
+<td align="right">151</td>
+<td align="left">-36.80818; 174.75085</td>
+</tr>
+<tr class="odd">
+<td align="left">Te Kopua Kai-a-Hiku / Panmure Basin</td>
+<td align="left">2023-08-03</td>
+<td align="right">25200</td>
+<td align="right">115</td>
+<td align="left">-36.90495; 174.849343</td>
+</tr>
+<tr class="even">
 <td align="left">Mean Age / Total Height</td>
 <td align="left">NA</td>
-<td align="right">66742</td>
-<td align="right">2104</td>
+<td align="right">75555</td>
+<td align="right">2370</td>
 <td align="left">NA</td>
 </tr>
 </tbody>
 </table>
-<p>Last updated 2023-08-01.</p>
+<p>Last updated 2023-08-08.</p>
 </div>
 <div id="code-availability" class="section level2">
 <h2>Code availability</h2>
@@ -1208,8 +1223,7 @@ License v3</a> or later, a compatible license with CC-BY-SA 4.0.</p>
 <p><br></p>
 <p>Originally published on 2023-07-16. Version 1.2.</p>
 <div id="back-to-en-cours-homepage" class="section level5">
-<h5><a href="https://encours.neocities.org/">Back to En cours
-homepage</a></h5>
+<h5><a href="../index.html">Back to En cours homepage</a></h5>
 </div>
 </div>
 
