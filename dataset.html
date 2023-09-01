@@ -1094,9 +1094,9 @@ the sites I have visited so far.</p>
 # Yes this hurts me.
 volcanoes &lt;- read_csv(&quot;volcanoes.csv&quot;)
 visited &lt;- tibble(
-  Volcanoes = c(&quot;Maungauika / North Head&quot;, &quot;Takarunga / Mount Victoria&quot;, &quot;Albert Park Volcano&quot;, &quot;Maungakiekie / One Tree Hill&quot;, &quot;Te Kōpuke / Tītīkōpuke / Mount St John&quot;, &quot;Ōhinerau / Mount Hobson&quot;, &quot;Ohuiarangi / Pigeon Mountain&quot;, &quot;Te Kopua Kai-a-Hiku / Panmure Basin&quot;, &quot;Onepoto&quot;),
+  Volcanoes = c(&quot;Maungauika / North Head&quot;, &quot;Takarunga / Mount Victoria&quot;, &quot;Albert Park Volcano&quot;, &quot;Maungakiekie / One Tree Hill&quot;, &quot;Te Kōpuke / Tītīkōpuke / Mount St John&quot;, &quot;Ōhinerau / Mount Hobson&quot;, &quot;Ohuiarangi / Pigeon Mountain&quot;, &quot;Te Kopua Kai-a-Hiku / Panmure Basin&quot;, &quot;Onepoto&quot;, &quot;Maungarei / Mount Wellington&quot;, &quot;Taurere / Taylors Hill&quot;, &quot;Whakamuhu / Saint Heliers / Glover Park&quot;, &quot;Maungawhau / Mount Eden&quot;),
   Visited = T, # Redundant column for future filters or whatever idk
-  `Date visited` = c(&quot;2023-07-11&quot;, &quot;2023-07-11&quot;, &quot;2023-07-17&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-30&quot;, &quot;2023-08-03&quot;, &quot;2023-08-03&quot;)
+  `Date visited` = c(&quot;2023-07-11&quot;, &quot;2023-07-11&quot;, &quot;2023-07-17&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-30&quot;, &quot;2023-08-03&quot;, &quot;2023-08-03&quot;, &quot;2023-08-27&quot;, &quot;2023-08-27&quot;, &quot;2023-08-27&quot;, &quot;2023-09-01&quot;)
 )
 
 bigvisited &lt;- inner_join(volcanoes, visited) %&gt;% 
@@ -1107,6 +1107,7 @@ bigvisited &lt;- inner_join(volcanoes, visited) %&gt;%
 
 summaryvisited &lt;- inner_join(volcanoes, visited) %&gt;% 
   summarize(
+    Location = paste0(&quot;n = &quot;, n(), &quot; / &quot;, nrow(volcanoes)),
     `Height (ft)` = sum(`Height (ft)`, na.rm = T),
     Age = as.integer(mean(Age), na.rm = T),
     Volcanoes = &quot;Mean Age / Total Height&quot;
@@ -1118,7 +1119,7 @@ knitr::kable(
 )</code></pre>
 <table style="width:100%;">
 <colgroup>
-<col width="41%" />
+<col width="42%" />
 <col width="13%" />
 <col width="7%" />
 <col width="12%" />
@@ -1198,15 +1199,43 @@ knitr::kable(
 <td align="left">-36.90495; 174.849343</td>
 </tr>
 <tr class="even">
+<td align="left">Maungarei / Mount Wellington</td>
+<td align="left">2023-08-27</td>
+<td align="right">10000</td>
+<td align="right">443</td>
+<td align="left">-36.89306; 174.846556</td>
+</tr>
+<tr class="odd">
+<td align="left">Taurere / Taylors Hill</td>
+<td align="left">2023-08-27</td>
+<td align="right">30200</td>
+<td align="right">184</td>
+<td align="left">-36.864223; 174.869943</td>
+</tr>
+<tr class="even">
+<td align="left">Whakamuhu / Saint Heliers / Glover Park</td>
+<td align="left">2023-08-27</td>
+<td align="right">161000</td>
+<td align="right">213</td>
+<td align="left">-36.846911; 174.867662</td>
+</tr>
+<tr class="odd">
+<td align="left">Maungawhau / Mount Eden</td>
+<td align="left">2023-09-01</td>
+<td align="right">28000</td>
+<td align="right">643</td>
+<td align="left">-36.877; 174.764</td>
+</tr>
+<tr class="even">
 <td align="left">Mean Age / Total Height</td>
 <td align="left">NA</td>
-<td align="right">75555</td>
-<td align="right">2370</td>
-<td align="left">NA</td>
+<td align="right">69938</td>
+<td align="right">3853</td>
+<td align="left">n = 13 / 53</td>
 </tr>
 </tbody>
 </table>
-<p>Last updated 2023-08-08.</p>
+<p>Last updated 2023-09-02.</p>
 </div>
 <div id="code-availability" class="section level2">
 <h2>Code availability</h2>

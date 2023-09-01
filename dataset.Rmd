@@ -152,9 +152,9 @@ Version 1.1: added volcanoe tracker.
 # Yes this hurts me.
 volcanoes <- read_csv("volcanoes.csv")
 visited <- tibble(
-  Volcanoes = c("Maungauika / North Head", "Takarunga / Mount Victoria", "Albert Park Volcano", "Maungakiekie / One Tree Hill", "Te Kōpuke / Tītīkōpuke / Mount St John", "Ōhinerau / Mount Hobson", "Ohuiarangi / Pigeon Mountain", "Te Kopua Kai-a-Hiku / Panmure Basin", "Onepoto"),
+  Volcanoes = c("Maungauika / North Head", "Takarunga / Mount Victoria", "Albert Park Volcano", "Maungakiekie / One Tree Hill", "Te Kōpuke / Tītīkōpuke / Mount St John", "Ōhinerau / Mount Hobson", "Ohuiarangi / Pigeon Mountain", "Te Kopua Kai-a-Hiku / Panmure Basin", "Onepoto", "Maungarei / Mount Wellington", "Taurere / Taylors Hill", "Whakamuhu / Saint Heliers / Glover Park", "Maungawhau / Mount Eden"),
   Visited = T, # Redundant column for future filters or whatever idk
-  `Date visited` = c("2023-07-11", "2023-07-11", "2023-07-17", "2023-07-22", "2023-07-22", "2023-07-22", "2023-07-30", "2023-08-03", "2023-08-03")
+  `Date visited` = c("2023-07-11", "2023-07-11", "2023-07-17", "2023-07-22", "2023-07-22", "2023-07-22", "2023-07-30", "2023-08-03", "2023-08-03", "2023-08-27", "2023-08-27", "2023-08-27", "2023-09-01")
 )
 
 bigvisited <- inner_join(volcanoes, visited) %>% 
@@ -165,6 +165,7 @@ bigvisited <- inner_join(volcanoes, visited) %>%
 
 summaryvisited <- inner_join(volcanoes, visited) %>% 
   summarize(
+    Location = paste0("n = ", n(), " / ", nrow(volcanoes)),
     `Height (ft)` = sum(`Height (ft)`, na.rm = T),
     Age = as.integer(mean(Age), na.rm = T),
     Volcanoes = "Mean Age / Total Height"
@@ -175,7 +176,7 @@ knitr::kable(
     arrange(`Date visited`, Volcanoes)
 )
 ```
-Last updated 2023-08-08. 
+Last updated 2023-09-02. 
 
 ## Code availability
 
