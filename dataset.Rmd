@@ -152,9 +152,9 @@ Version 1.1: added volcanoe tracker.
 # Yes this hurts me.
 volcanoes <- read_csv("volcanoes.csv")
 visited <- tibble(
-  Volcanoes = c("Maungauika / North Head", "Takarunga / Mount Victoria", "Albert Park Volcano", "Maungakiekie / One Tree Hill", "Te Kōpuke / Tītīkōpuke / Mount St John", "Ōhinerau / Mount Hobson", "Ohuiarangi / Pigeon Mountain", "Te Kopua Kai-a-Hiku / Panmure Basin", "Onepoto", "Maungarei / Mount Wellington", "Taurere / Taylors Hill", "Whakamuhu / Saint Heliers / Glover Park", "Maungawhau / Mount Eden", "Takaroro / Mount Cambria", "Te Pou Hawaiki"),
+  Volcanoes = c("Maungauika / North Head", "Takarunga / Mount Victoria", "Albert Park Volcano", "Maungakiekie / One Tree Hill", "Te Kōpuke / Tītīkōpuke / Mount St John", "Ōhinerau / Mount Hobson", "Ohuiarangi / Pigeon Mountain", "Te Kopua Kai-a-Hiku / Panmure Basin", "Onepoto", "Maungarei / Mount Wellington", "Taurere / Taylors Hill", "Whakamuhu / Saint Heliers / Glover Park", "Maungawhau / Mount Eden", "Takaroro / Mount Cambria", "Te Pou Hawaiki", "Te Tātua-a-Riukiuta / Three Kings", "Te Hopua-a-Rangi / Gloucester Park", "Te Pane-o-Mataaho / Māngere Mountain", "Māngere Lagoon"),
   Visited = T, # Redundant column for future filters or whatever idk
-  `Date visited` = c("2023-07-11", "2023-07-11", "2023-07-17", "2023-07-22", "2023-07-22", "2023-07-22", "2023-07-30", "2023-08-03", "2023-08-03", "2023-08-27", "2023-08-27", "2023-08-27", "2023-09-01", "2023-09-17", "2023-09-27")
+  `Date visited` = c("2023-07-11", "2023-07-11", "2023-07-17", "2023-07-22", "2023-07-22", "2023-07-22", "2023-07-30", "2023-08-03", "2023-08-03", "2023-08-27", "2023-08-27", "2023-08-27", "2023-09-01", "2023-09-17", "2023-09-27", "2023-10-13", "2023-10-14", "2023-10-14", "2023-10-14")
 )
 
 bigvisited <- inner_join(volcanoes, visited) %>% 
@@ -176,7 +176,7 @@ knitr::kable(
     arrange(`Date visited`, Volcanoes)
 )
 ```
-Last updated 2023-09-29. 
+Last updated 2023-10-14. 
 
 ## Code availability
 

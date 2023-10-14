@@ -242,7 +242,7 @@ window.initializeCodeFolding = function(show) {
     $(this).detach().appendTo(div);
 
     // add a show code button right above
-    var showCodeText = $('<span>' + (showThis ? 'Hide' : 'Code') + '</span>');
+    var showCodeText = $('<span>' + (showThis ? 'Hide' : 'Show') + '</span>');
     var showCodeButton = $('<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm code-folding-btn pull-right float-right"></button>');
     showCodeButton.append(showCodeText);
     showCodeButton
@@ -268,7 +268,7 @@ window.initializeCodeFolding = function(show) {
     //   * Change text
     //   * add a class for intermediate states styling
     div.on('hide.bs.collapse', function () {
-      showCodeText.text('Code');
+      showCodeText.text('Show');
       showCodeButton.addClass('btn-collapsing');
     });
     div.on('hidden.bs.collapse', function () {
@@ -1094,9 +1094,9 @@ the sites I have visited so far.</p>
 # Yes this hurts me.
 volcanoes &lt;- read_csv(&quot;volcanoes.csv&quot;)
 visited &lt;- tibble(
-  Volcanoes = c(&quot;Maungauika / North Head&quot;, &quot;Takarunga / Mount Victoria&quot;, &quot;Albert Park Volcano&quot;, &quot;Maungakiekie / One Tree Hill&quot;, &quot;Te Kōpuke / Tītīkōpuke / Mount St John&quot;, &quot;Ōhinerau / Mount Hobson&quot;, &quot;Ohuiarangi / Pigeon Mountain&quot;, &quot;Te Kopua Kai-a-Hiku / Panmure Basin&quot;, &quot;Onepoto&quot;, &quot;Maungarei / Mount Wellington&quot;, &quot;Taurere / Taylors Hill&quot;, &quot;Whakamuhu / Saint Heliers / Glover Park&quot;, &quot;Maungawhau / Mount Eden&quot;, &quot;Takaroro / Mount Cambria&quot;),
+  Volcanoes = c(&quot;Maungauika / North Head&quot;, &quot;Takarunga / Mount Victoria&quot;, &quot;Albert Park Volcano&quot;, &quot;Maungakiekie / One Tree Hill&quot;, &quot;Te Kōpuke / Tītīkōpuke / Mount St John&quot;, &quot;Ōhinerau / Mount Hobson&quot;, &quot;Ohuiarangi / Pigeon Mountain&quot;, &quot;Te Kopua Kai-a-Hiku / Panmure Basin&quot;, &quot;Onepoto&quot;, &quot;Maungarei / Mount Wellington&quot;, &quot;Taurere / Taylors Hill&quot;, &quot;Whakamuhu / Saint Heliers / Glover Park&quot;, &quot;Maungawhau / Mount Eden&quot;, &quot;Takaroro / Mount Cambria&quot;, &quot;Te Pou Hawaiki&quot;, &quot;Te Tātua-a-Riukiuta / Three Kings&quot;, &quot;Te Hopua-a-Rangi / Gloucester Park&quot;, &quot;Te Pane-o-Mataaho / Māngere Mountain&quot;, &quot;Māngere Lagoon&quot;),
   Visited = T, # Redundant column for future filters or whatever idk
-  `Date visited` = c(&quot;2023-07-11&quot;, &quot;2023-07-11&quot;, &quot;2023-07-17&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-30&quot;, &quot;2023-08-03&quot;, &quot;2023-08-03&quot;, &quot;2023-08-27&quot;, &quot;2023-08-27&quot;, &quot;2023-08-27&quot;, &quot;2023-09-01&quot;, &quot;2023-09-17&quot;)
+  `Date visited` = c(&quot;2023-07-11&quot;, &quot;2023-07-11&quot;, &quot;2023-07-17&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-30&quot;, &quot;2023-08-03&quot;, &quot;2023-08-03&quot;, &quot;2023-08-27&quot;, &quot;2023-08-27&quot;, &quot;2023-08-27&quot;, &quot;2023-09-01&quot;, &quot;2023-09-17&quot;, &quot;2023-09-27&quot;, &quot;2023-10-13&quot;, &quot;2023-10-14&quot;, &quot;2023-10-14&quot;, &quot;2023-10-14&quot;)
 )
 
 bigvisited &lt;- inner_join(volcanoes, visited) %&gt;% 
@@ -1234,15 +1234,50 @@ knitr::kable(
 <td align="left">-36.824444; 174.801933</td>
 </tr>
 <tr class="odd">
+<td align="left">Te Pou Hawaiki</td>
+<td align="left">2023-09-27</td>
+<td align="right">28000</td>
+<td align="right">312</td>
+<td align="left">-36.88247; 174.766726</td>
+</tr>
+<tr class="even">
+<td align="left">Te Tātua-a-Riukiuta / Three Kings</td>
+<td align="left">2023-10-13</td>
+<td align="right">31000</td>
+<td align="right">436</td>
+<td align="left">-36.902926; 174.754651</td>
+</tr>
+<tr class="odd">
+<td align="left">Māngere Lagoon</td>
+<td align="left">2023-10-14</td>
+<td align="right">59500</td>
+<td align="right">66</td>
+<td align="left">-36.95702; 174.77763</td>
+</tr>
+<tr class="even">
+<td align="left">Te Hopua-a-Rangi / Gloucester Park</td>
+<td align="left">2023-10-14</td>
+<td align="right">31000</td>
+<td align="right">39</td>
+<td align="left">-36.9295; 174.784734</td>
+</tr>
+<tr class="odd">
+<td align="left">Te Pane-o-Mataaho / Māngere Mountain</td>
+<td align="left">2023-10-14</td>
+<td align="right">59000</td>
+<td align="right">348</td>
+<td align="left">-36.9496; 174.7831</td>
+</tr>
+<tr class="even">
 <td align="left">Mean Age / Total Height</td>
 <td align="left">NA</td>
-<td align="right">67964</td>
-<td align="right">3951</td>
-<td align="left">n = 14 / 53 (26%)</td>
+<td align="right">61052</td>
+<td align="right">5152</td>
+<td align="left">n = 19 / 53 (36%)</td>
 </tr>
 </tbody>
 </table>
-<p>Last updated 2023-09-02.</p>
+<p>Last updated 2023-10-14.</p>
 </div>
 <div id="code-availability" class="section level2">
 <h2>Code availability</h2>
