@@ -11,7 +11,7 @@
 
 <meta name="author" content="AHC" />
 
-<meta name="date" content="2023-08-01" />
+<meta name="date" content="2023-10-25" />
 
 <title>A collection of data on the Auckland Volcanic Field</title>
 
@@ -242,7 +242,7 @@ window.initializeCodeFolding = function(show) {
     $(this).detach().appendTo(div);
 
     // add a show code button right above
-    var showCodeText = $('<span>' + (showThis ? 'Hide' : 'Show') + '</span>');
+    var showCodeText = $('<span>' + (showThis ? 'Hide' : 'Code') + '</span>');
     var showCodeButton = $('<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm code-folding-btn pull-right float-right"></button>');
     showCodeButton.append(showCodeText);
     showCodeButton
@@ -268,7 +268,7 @@ window.initializeCodeFolding = function(show) {
     //   * Change text
     //   * add a class for intermediate states styling
     div.on('hide.bs.collapse', function () {
-      showCodeText.text('Show');
+      showCodeText.text('Code');
       showCodeButton.addClass('btn-collapsing');
     });
     div.on('hidden.bs.collapse', function () {
@@ -441,7 +441,7 @@ display: none;
 <h1 class="title toc-ignore">A collection of data on the Auckland
 Volcanic Field</h1>
 <h4 class="author">AHC</h4>
-<h4 class="date">2023-08-01</h4>
+<h4 class="date">2023-10-25</h4>
 
 </div>
 
@@ -1086,7 +1086,7 @@ some practice in R by trying to reproduce this.</p>
 eventual updates, or perhaps a little table that is updated with info on
 the sites I have visited so far.</p>
 <p>Peace and love &lt;3 - alice</p>
-<p>Version 1.1: added volcanoe tracker.</p>
+<p>Version 1.1: added volcano tracker.</p>
 </div>
 <div id="volcanoe-tracker" class="section level2">
 <h2>Volcanoe Tracker</h2>
@@ -1277,7 +1277,23 @@ knitr::kable(
 </tr>
 </tbody>
 </table>
-<p>Last updated 2023-10-14.</p>
+<p>Tracker last updated 2023-10-14.</p>
+<p>Version 1.3 added <code>to visit</code> csv generator for maps.</p>
+<div id="volcanoes-to-visit-generator" class="section level3">
+<h3>Volcanoes to visit generator</h3>
+<p>You know how I mentioned wanting to have a nice little export into
+google or something to easily know which volcanoes I still had to visit?
+Now is the time!</p>
+<pre class="r"><code>volcanoes &lt;- volcanoes %&gt;% 
+  mutate(
+    Lat = str_split_i(Location, &quot;;&quot;, 1),
+    Long = str_split_i(Location, &quot;;&quot;, 2)
+  )
+
+left_join(volcanoes, visited) %&gt;% 
+  filter(is.na(Visited)) %&gt;% 
+  write_csv(., &quot;tovisit.csv&quot;)</code></pre>
+</div>
 </div>
 <div id="code-availability" class="section level2">
 <h2>Code availability</h2>
@@ -1292,7 +1308,7 @@ authored by Wikipedia contributors and is licensed under <a href="https://creati
 This project is licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU General Public
 License v3</a> or later, a compatible license with CC-BY-SA 4.0.</p>
 <p><br></p>
-<p>Originally published on 2023-07-16. Version 1.2.</p>
+<p>Originally published on 2023-07-16. Version 1.3.</p>
 <div id="back-to-en-cours-homepage" class="section level5">
 <h5><a href="../index.html">Back to En cours homepage</a></h5>
 </div>

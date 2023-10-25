@@ -1,7 +1,7 @@
 ---
 title: "A collection of data on the Auckland Volcanic Field"
 author: "AHC"
-date: "2023-08-01"
+date: "2023-10-25"
 output: 
   html_document:
     code_folding: show
@@ -143,7 +143,7 @@ or perhaps a little table that is updated with info on the sites I have visited 
 
 Peace and love <3 - alice
 
-Version 1.1: added volcanoe tracker.
+Version 1.1: added volcano tracker.
 
 ## Volcanoe Tracker
 
@@ -176,7 +176,27 @@ knitr::kable(
     arrange(`Date visited`, Volcanoes)
 )
 ```
-Last updated 2023-10-14. 
+Tracker last updated 2023-10-14. 
+
+
+Version 1.3 added `to visit` csv generator for maps.
+
+### Volcanoes to visit generator
+
+You know how I mentioned wanting to have a nice little export into google or something to 
+easily know which volcanoes I still had to visit? Now is the time!
+
+```{r to visit, message = F}
+volcanoes <- volcanoes %>% 
+  mutate(
+    Lat = str_split_i(Location, ";", 1),
+    Long = str_split_i(Location, ";", 2)
+  )
+
+left_join(volcanoes, visited) %>% 
+  filter(is.na(Visited)) %>% 
+  write_csv(., "tovisit.csv")
+```
 
 ## Code availability
 
@@ -190,6 +210,6 @@ or later, a compatible license with CC-BY-SA 4.0.
 
 <br>
 
-Originally published on 2023-07-16. Version 1.2.
+Originally published on 2023-07-16. Version 1.3.
 
 ##### [Back to En cours homepage](../index.html)
