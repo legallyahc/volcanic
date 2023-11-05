@@ -11,7 +11,7 @@
 
 <meta name="author" content="AHC" />
 
-<meta name="date" content="2023-10-25" />
+<meta name="date" content="2023-11-05" />
 
 <title>A collection of data on the Auckland Volcanic Field</title>
 
@@ -441,35 +441,31 @@ display: none;
 <h1 class="title toc-ignore">A collection of data on the Auckland
 Volcanic Field</h1>
 <h4 class="author">AHC</h4>
-<h4 class="date">2023-10-25</h4>
+<h4 class="date">2023-11-05</h4>
 
 </div>
 
 
-<div id="packages" class="section level2">
-<h2>Packages</h2>
-<pre class="r"><code>#install.packages(c(&quot;tidyverse&quot;, &quot;httr&quot;, &quot;XML&quot;))
-# For data cleaning, usability, and output
-library(tidyverse)
-
-# To import data from Wikipedia
-library(httr)
-library(XML)</code></pre>
-</div>
 <div id="background" class="section level2">
 <h2>Background</h2>
+<pre class="r"><code># install.packages(c(&quot;tidyverse&quot;, &quot;httr&quot;, &quot;XML&quot;))
+library(tidyverse)
+  # `tidyverse` for data cleaning, usability, and output
+library(httr)
+library(XML)
+  # `httr` and `XML` for data import</code></pre>
 <p>This is whole thing is drawn from the <a href="https://en.m.wikipedia.org/w/index.php?title=Auckland_volcanic_field&amp;oldid=1146734511">Wikipedia
 article on the Auckland Volcanic Field</a>. I’m using this as practice
-in extracting data, making it pretty and presentable, and hopefully
-being able to use this practically as well to import nice reference
-points of all of the volcanoes. (Anti-skill loss project my beloved
+in extracting data from the web, making it pretty and presentable, all
+while having a semi-practical use to import geospatial specific points
+for all of the volcanoes. (Anti-skill loss project my beloved
 &lt;3).</p>
 <pre class="r"><code># Import data from Wikipedia
 # From user:schnee response on https://stackoverflow.com/questions/7407735/importing-wikipedia-tables-in-r
 
 url &lt;- &quot;https://en.m.wikipedia.org/w/index.php?title=Auckland_volcanic_field&amp;oldid=1146734511&quot;
-        # This is a permanent link to the exact data I used (accessed on 2023-07-17), use the following at your own risk:
-#url &lt;- &quot;https://en.m.wikipedia.org/wiki/Auckland_volcanic_field&quot;
+  # This is a permanent link to the exact data I used (accessed on 2023-07-17), use the following at your own risk:
+  # url &lt;- &quot;https://en.m.wikipedia.org/wiki/Auckland_volcanic_field&quot;
 
 r &lt;- GET(url)
 
@@ -510,7 +506,7 @@ bit.</p>
   # Cleaning age ---------------------------------------------------------------
   separate(col = Age, into = c(&quot;Age&quot;, &quot;Uncertainty (±)&quot;), sep = &quot;±&quot;)
   
-  # Manually update the values bc u can&#39;t be fucked to figure out the functions to do it
+  # Manually update the values bc it&#39;s simpler than finding a particular function to do it
   volcanoes[53,2] &lt;- &quot;30.55&quot;
   volcanoes[53,3] &lt;- &quot;0.45&quot;
   volcanoes[3,2] &lt;- &quot;130&quot;
@@ -530,7 +526,7 @@ bit.</p>
     `Uncertainty (±)` = as.integer(`Uncertainty (±)`)
   )
   
-  # That one funny name
+  # That one funny name that wouldn&#39;t parse perfectly
   volcanoes[52,1] &lt;- &quot;Whakamuhu / Saint Heliers / Glover Park&quot;
 
 # Data output for however you want it ------------------------------------------
@@ -1046,12 +1042,12 @@ knitr::kable(volcanoes)</code></pre>
 <p>Well, ain’t that the question. For me, I created this because I plan
 on visiting all 53(!) historic volcanoes in Auckland. Seems fun, and I
 don’t have anything better to do. I went through the hassle of making
-this into a google list, but it’s deeply inaccurate (I attached each
-point to a nearby place rather than its coordinates) so I plan on
-remaking based on the coordinates provided in the Wiki page, and I might
-try to find some fun OSM (Open Street Map) based thing. However, the
-points seem a little inaccurate… I will report back from my adventures
-with any important changes.</p>
+this into a gmaps list, but it’s deeply inaccurate (I attached each
+point to a nearby place rather than its coordinates) so I used the code
+below in <a href="#volcanoes-to-visit-generator">Volcanoes to visit
+generator</a> to add it to a Google My Maps. However, the points seem a
+little inaccurate… I will report back from my adventures with any
+important changes.</p>
 <p>Feel free to play with this, if you want a neat little dataset or
 some practice in R by trying to reproduce this.</p>
 <p>Some fun stats (now easy to do with the data already in R):</p>
@@ -1088,15 +1084,15 @@ the sites I have visited so far.</p>
 <p>Peace and love &lt;3 - alice</p>
 <p>Version 1.1: added volcano tracker.</p>
 </div>
-<div id="volcanoe-tracker" class="section level2">
-<h2>Volcanoe Tracker</h2>
+<div id="volcano-tracker" class="section level2">
+<h2>Volcano Tracker</h2>
 <pre class="r"><code># Yes I tried to make a Shiny app. Yes I realized about an hour into it that it would not be static.
 # Yes this hurts me.
 volcanoes &lt;- read_csv(&quot;volcanoes.csv&quot;)
 visited &lt;- tibble(
-  Volcanoes = c(&quot;Maungauika / North Head&quot;, &quot;Takarunga / Mount Victoria&quot;, &quot;Albert Park Volcano&quot;, &quot;Maungakiekie / One Tree Hill&quot;, &quot;Te Kōpuke / Tītīkōpuke / Mount St John&quot;, &quot;Ōhinerau / Mount Hobson&quot;, &quot;Ohuiarangi / Pigeon Mountain&quot;, &quot;Te Kopua Kai-a-Hiku / Panmure Basin&quot;, &quot;Onepoto&quot;, &quot;Maungarei / Mount Wellington&quot;, &quot;Taurere / Taylors Hill&quot;, &quot;Whakamuhu / Saint Heliers / Glover Park&quot;, &quot;Maungawhau / Mount Eden&quot;, &quot;Takaroro / Mount Cambria&quot;, &quot;Te Pou Hawaiki&quot;, &quot;Te Tātua-a-Riukiuta / Three Kings&quot;, &quot;Te Hopua-a-Rangi / Gloucester Park&quot;, &quot;Te Pane-o-Mataaho / Māngere Mountain&quot;, &quot;Māngere Lagoon&quot;),
+  Volcanoes = c(&quot;Maungauika / North Head&quot;, &quot;Takarunga / Mount Victoria&quot;, &quot;Albert Park Volcano&quot;, &quot;Maungakiekie / One Tree Hill&quot;, &quot;Te Kōpuke / Tītīkōpuke / Mount St John&quot;, &quot;Ōhinerau / Mount Hobson&quot;, &quot;Ohuiarangi / Pigeon Mountain&quot;, &quot;Te Kopua-o-Matakamokamo / Tank Farm / Tuff Crater&quot;, &quot;Onepoto&quot;, &quot;Maungarei / Mount Wellington&quot;, &quot;Taurere / Taylors Hill&quot;, &quot;Whakamuhu / Saint Heliers / Glover Park&quot;, &quot;Maungawhau / Mount Eden&quot;, &quot;Takaroro / Mount Cambria&quot;, &quot;Te Pou Hawaiki&quot;, &quot;Te Tātua-a-Riukiuta / Three Kings&quot;, &quot;Te Hopua-a-Rangi / Gloucester Park&quot;, &quot;Te Pane-o-Mataaho / Māngere Mountain&quot;, &quot;Māngere Lagoon&quot;, &quot;Ōrākei Basin&quot;, &quot;Maungarahiri / Little Rangitoto&quot;, &quot;Pukekawa / Auckland Domain&quot;, &quot;Grafton Volcano&quot;),
   Visited = T, # Redundant column for future filters or whatever idk
-  `Date visited` = c(&quot;2023-07-11&quot;, &quot;2023-07-11&quot;, &quot;2023-07-17&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-30&quot;, &quot;2023-08-03&quot;, &quot;2023-08-03&quot;, &quot;2023-08-27&quot;, &quot;2023-08-27&quot;, &quot;2023-08-27&quot;, &quot;2023-09-01&quot;, &quot;2023-09-17&quot;, &quot;2023-09-27&quot;, &quot;2023-10-13&quot;, &quot;2023-10-14&quot;, &quot;2023-10-14&quot;, &quot;2023-10-14&quot;)
+  `Date visited` = c(&quot;2023-07-11&quot;, &quot;2023-07-11&quot;, &quot;2023-07-17&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-30&quot;, &quot;2023-08-03&quot;, &quot;2023-08-03&quot;, &quot;2023-08-27&quot;, &quot;2023-08-27&quot;, &quot;2023-08-27&quot;, &quot;2023-09-01&quot;, &quot;2023-09-17&quot;, &quot;2023-09-27&quot;, &quot;2023-10-13&quot;, &quot;2023-10-14&quot;, &quot;2023-10-14&quot;, &quot;2023-10-14&quot;, &quot;2023-11-04&quot;, &quot;2023-11-04&quot;, &quot;2023-10-26&quot;, &quot;2023-08-05&quot;)
 )
 
 bigvisited &lt;- inner_join(volcanoes, visited) %&gt;% 
@@ -1117,13 +1113,13 @@ knitr::kable(
   bind_rows(bigvisited, summaryvisited) %&gt;% 
     arrange(`Date visited`, Volcanoes)
 )</code></pre>
-<table style="width:100%;">
+<table>
 <colgroup>
-<col width="42%" />
-<col width="13%" />
-<col width="7%" />
+<col width="47%" />
 <col width="12%" />
-<col width="24%" />
+<col width="6%" />
+<col width="11%" />
+<col width="21%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1192,92 +1188,120 @@ knitr::kable(
 <td align="left">-36.80818; 174.75085</td>
 </tr>
 <tr class="odd">
-<td align="left">Te Kopua Kai-a-Hiku / Panmure Basin</td>
+<td align="left">Te Kopua-o-Matakamokamo / Tank Farm / Tuff Crater</td>
 <td align="left">2023-08-03</td>
-<td align="right">25200</td>
-<td align="right">115</td>
-<td align="left">-36.90495; 174.849343</td>
+<td align="right">181000</td>
+<td align="right">151</td>
+<td align="left">-36.8020; 174.7533</td>
 </tr>
 <tr class="even">
+<td align="left">Grafton Volcano</td>
+<td align="left">2023-08-05</td>
+<td align="right">106500</td>
+<td align="right">269</td>
+<td align="left">-36.858440; 174.763624</td>
+</tr>
+<tr class="odd">
 <td align="left">Maungarei / Mount Wellington</td>
 <td align="left">2023-08-27</td>
 <td align="right">10000</td>
 <td align="right">443</td>
 <td align="left">-36.89306; 174.846556</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Taurere / Taylors Hill</td>
 <td align="left">2023-08-27</td>
 <td align="right">30200</td>
 <td align="right">184</td>
 <td align="left">-36.864223; 174.869943</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Whakamuhu / Saint Heliers / Glover Park</td>
 <td align="left">2023-08-27</td>
 <td align="right">161000</td>
 <td align="right">213</td>
 <td align="left">-36.846911; 174.867662</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Maungawhau / Mount Eden</td>
 <td align="left">2023-09-01</td>
 <td align="right">28000</td>
 <td align="right">643</td>
 <td align="left">-36.877; 174.764</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Takaroro / Mount Cambria</td>
 <td align="left">2023-09-17</td>
 <td align="right">42300</td>
 <td align="right">98</td>
 <td align="left">-36.824444; 174.801933</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Te Pou Hawaiki</td>
 <td align="left">2023-09-27</td>
 <td align="right">28000</td>
 <td align="right">312</td>
 <td align="left">-36.88247; 174.766726</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Te Tātua-a-Riukiuta / Three Kings</td>
 <td align="left">2023-10-13</td>
 <td align="right">31000</td>
 <td align="right">436</td>
 <td align="left">-36.902926; 174.754651</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Māngere Lagoon</td>
 <td align="left">2023-10-14</td>
 <td align="right">59500</td>
 <td align="right">66</td>
 <td align="left">-36.95702; 174.77763</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Te Hopua-a-Rangi / Gloucester Park</td>
 <td align="left">2023-10-14</td>
 <td align="right">31000</td>
 <td align="right">39</td>
 <td align="left">-36.9295; 174.784734</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Te Pane-o-Mataaho / Māngere Mountain</td>
 <td align="left">2023-10-14</td>
 <td align="right">59000</td>
 <td align="right">348</td>
 <td align="left">-36.9496; 174.7831</td>
 </tr>
+<tr class="odd">
+<td align="left">Pukekawa / Auckland Domain</td>
+<td align="left">2023-10-26</td>
+<td align="right">106000</td>
+<td align="right">253</td>
+<td align="left">-36.859158; 174.775808</td>
+</tr>
+<tr class="even">
+<td align="left">Maungarahiri / Little Rangitoto</td>
+<td align="left">2023-11-04</td>
+<td align="right">24600</td>
+<td align="right">246</td>
+<td align="left">-36.875407; 174.809636</td>
+</tr>
+<tr class="odd">
+<td align="left">Ōrākei Basin</td>
+<td align="left">2023-11-04</td>
+<td align="right">126000</td>
+<td align="right">177</td>
+<td align="left">-36.867124; 174.81308</td>
+</tr>
 <tr class="even">
 <td align="left">Mean Age / Total Height</td>
 <td align="left">NA</td>
-<td align="right">61052</td>
-<td align="right">5152</td>
-<td align="left">n = 19 / 53 (36%)</td>
+<td align="right">72995</td>
+<td align="right">6133</td>
+<td align="left">n = 23 / 53 (43%)</td>
 </tr>
 </tbody>
 </table>
-<p>Tracker last updated 2023-10-14.</p>
+<p>Tracker last updated 2023-11-05.</p>
 <p>Version 1.3 added <code>to visit</code> csv generator for maps.</p>
 <div id="volcanoes-to-visit-generator" class="section level3">
 <h3>Volcanoes to visit generator</h3>
@@ -1293,24 +1317,29 @@ Now is the time!</p>
 left_join(volcanoes, visited) %&gt;% 
   filter(is.na(Visited)) %&gt;% 
   write_csv(., &quot;tovisit.csv&quot;)</code></pre>
+<p>And, now that we have that with Lat and Long specified in columns, we
+can import it into a <a href="https://www.google.com/maps/d/u/0/edit?mid=1IJyYLAL8ikhqOcV66Ka2mTrnSG_Z_qk&amp;usp=sharing">Google
+My Map</a> (because you can’t with normal gmaps?). A neat thing I found
+is that you can re-import specific layers, which is nice once a couple
+of volcanoes are ticked off the list.</p>
 </div>
 </div>
 <div id="code-availability" class="section level2">
 <h2>Code availability</h2>
-<p>The source code for this project is available at <a href="https://github.com/legallyahc/volcanic">https://github.com/legallyahc/volcanic</a>,
-with all work done right in this RMarkdown file
-(<code>dataset.rmd</code>) :3.</p>
+<p>The source code for this project is available at <a href="https://github.com/legallyahc/volcanic" class="uri">https://github.com/legallyahc/volcanic</a>, with all work
+done right in this RMarkdown file (<code>dataset.rmd</code>) :3.</p>
 </div>
-<div id="copyright-info" class="section level2">
-<h2>Copyright info</h2>
+<div id="copyright" class="section level2">
+<h2>Copyright</h2>
 <p>This project is based on information from Wikipedia which was
 authored by Wikipedia contributors and is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a>.
 This project is licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU General Public
 License v3</a> or later, a compatible license with CC-BY-SA 4.0.</p>
 <p><br></p>
-<p>Originally published on 2023-07-16. Version 1.3.</p>
-<div id="back-to-en-cours-homepage" class="section level5">
-<h5><a href="../index.html">Back to En cours homepage</a></h5>
+<p>Originally published on 2023-07-16. Version 1.3.1.</p>
+<!-- This is included for publishing on my website, feel free to exclude -->
+<div id="back-to-what" class="section level5">
+<h5><a href="../what.html">Back to What?</a></h5>
 </div>
 </div>
 
