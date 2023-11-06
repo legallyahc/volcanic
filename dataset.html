@@ -242,7 +242,7 @@ window.initializeCodeFolding = function(show) {
     $(this).detach().appendTo(div);
 
     // add a show code button right above
-    var showCodeText = $('<span>' + (showThis ? 'Hide' : 'Code') + '</span>');
+    var showCodeText = $('<span>' + (showThis ? 'Hide' : 'Show') + '</span>');
     var showCodeButton = $('<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm code-folding-btn pull-right float-right"></button>');
     showCodeButton.append(showCodeText);
     showCodeButton
@@ -268,7 +268,7 @@ window.initializeCodeFolding = function(show) {
     //   * Change text
     //   * add a class for intermediate states styling
     div.on('hide.bs.collapse', function () {
-      showCodeText.text('Code');
+      showCodeText.text('Show');
       showCodeButton.addClass('btn-collapsing');
     });
     div.on('hidden.bs.collapse', function () {
@@ -1090,9 +1090,9 @@ the sites I have visited so far.</p>
 # Yes this hurts me.
 volcanoes &lt;- read_csv(&quot;volcanoes.csv&quot;)
 visited &lt;- tibble(
-  Volcanoes = c(&quot;Maungauika / North Head&quot;, &quot;Takarunga / Mount Victoria&quot;, &quot;Albert Park Volcano&quot;, &quot;Maungakiekie / One Tree Hill&quot;, &quot;Te Kōpuke / Tītīkōpuke / Mount St John&quot;, &quot;Ōhinerau / Mount Hobson&quot;, &quot;Ohuiarangi / Pigeon Mountain&quot;, &quot;Te Kopua-o-Matakamokamo / Tank Farm / Tuff Crater&quot;, &quot;Onepoto&quot;, &quot;Maungarei / Mount Wellington&quot;, &quot;Taurere / Taylors Hill&quot;, &quot;Whakamuhu / Saint Heliers / Glover Park&quot;, &quot;Maungawhau / Mount Eden&quot;, &quot;Takaroro / Mount Cambria&quot;, &quot;Te Pou Hawaiki&quot;, &quot;Te Tātua-a-Riukiuta / Three Kings&quot;, &quot;Te Hopua-a-Rangi / Gloucester Park&quot;, &quot;Te Pane-o-Mataaho / Māngere Mountain&quot;, &quot;Māngere Lagoon&quot;, &quot;Ōrākei Basin&quot;, &quot;Maungarahiri / Little Rangitoto&quot;, &quot;Pukekawa / Auckland Domain&quot;, &quot;Grafton Volcano&quot;),
+  Volcanoes = c(&quot;Maungauika / North Head&quot;, &quot;Takarunga / Mount Victoria&quot;, &quot;Albert Park Volcano&quot;, &quot;Maungakiekie / One Tree Hill&quot;, &quot;Te Kōpuke / Tītīkōpuke / Mount St John&quot;, &quot;Ōhinerau / Mount Hobson&quot;, &quot;Ohuiarangi / Pigeon Mountain&quot;, &quot;Te Kopua-o-Matakamokamo / Tank Farm / Tuff Crater&quot;, &quot;Onepoto&quot;, &quot;Maungarei / Mount Wellington&quot;, &quot;Taurere / Taylors Hill&quot;, &quot;Whakamuhu / Saint Heliers / Glover Park&quot;, &quot;Maungawhau / Mount Eden&quot;, &quot;Takaroro / Mount Cambria&quot;, &quot;Te Pou Hawaiki&quot;, &quot;Te Tātua-a-Riukiuta / Three Kings&quot;, &quot;Te Hopua-a-Rangi / Gloucester Park&quot;, &quot;Te Pane-o-Mataaho / Māngere Mountain&quot;, &quot;Māngere Lagoon&quot;, &quot;Ōrākei Basin&quot;, &quot;Maungarahiri / Little Rangitoto&quot;, &quot;Pukekawa / Auckland Domain&quot;, &quot;Grafton Volcano&quot;, &quot;Ash Hill&quot;, &quot;Wiri Mountain / Matukutūruru&quot;, &quot;Matukutureia / McLaughlins Mountain&quot;, &quot;Puhinui Craters&quot;),
   Visited = T, # Redundant column for future filters or whatever idk
-  `Date visited` = c(&quot;2023-07-11&quot;, &quot;2023-07-11&quot;, &quot;2023-07-17&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-30&quot;, &quot;2023-08-03&quot;, &quot;2023-08-03&quot;, &quot;2023-08-27&quot;, &quot;2023-08-27&quot;, &quot;2023-08-27&quot;, &quot;2023-09-01&quot;, &quot;2023-09-17&quot;, &quot;2023-09-27&quot;, &quot;2023-10-13&quot;, &quot;2023-10-14&quot;, &quot;2023-10-14&quot;, &quot;2023-10-14&quot;, &quot;2023-11-04&quot;, &quot;2023-11-04&quot;, &quot;2023-10-26&quot;, &quot;2023-08-05&quot;)
+  `Date visited` = c(&quot;2023-07-11&quot;, &quot;2023-07-11&quot;, &quot;2023-07-17&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-22&quot;, &quot;2023-07-30&quot;, &quot;2023-08-03&quot;, &quot;2023-08-03&quot;, &quot;2023-08-27&quot;, &quot;2023-08-27&quot;, &quot;2023-08-27&quot;, &quot;2023-09-01&quot;, &quot;2023-09-17&quot;, &quot;2023-09-27&quot;, &quot;2023-10-13&quot;, &quot;2023-10-14&quot;, &quot;2023-10-14&quot;, &quot;2023-10-14&quot;, &quot;2023-11-04&quot;, &quot;2023-11-04&quot;, &quot;2023-10-26&quot;, &quot;2023-08-05&quot;, &quot;2023-11-06&quot;, &quot;2023-11-06&quot;, &quot;2023-11-06&quot;, &quot;2023-11-06&quot;)
 )
 
 bigvisited &lt;- inner_join(volcanoes, visited) %&gt;% 
@@ -1105,7 +1105,7 @@ summaryvisited &lt;- inner_join(volcanoes, visited) %&gt;%
   summarize(
     Location = paste0(&quot;n = &quot;, n(), &quot; / &quot;, nrow(volcanoes), &quot; (&quot;, round((n() / nrow(volcanoes)) * 100), &quot;%)&quot;),
     `Height (ft)` = sum(`Height (ft)`, na.rm = T),
-    Age = as.integer(mean(Age), na.rm = T),
+    Age = as.integer(mean(Age, na.rm = T)),
     Volcanoes = &quot;Mean Age / Total Height&quot;
   )
 
@@ -1293,15 +1293,43 @@ knitr::kable(
 <td align="left">-36.867124; 174.81308</td>
 </tr>
 <tr class="even">
+<td align="left">Ash Hill</td>
+<td align="left">2023-11-06</td>
+<td align="right">31800</td>
+<td align="right">98</td>
+<td align="left">-37.002754; 174.867545</td>
+</tr>
+<tr class="odd">
+<td align="left">Matukutureia / McLaughlins Mountain</td>
+<td align="left">2023-11-06</td>
+<td align="right">48200</td>
+<td align="right">240</td>
+<td align="left">-37.013511; 174.845974</td>
+</tr>
+<tr class="even">
+<td align="left">Puhinui Craters</td>
+<td align="left">2023-11-06</td>
+<td align="right">NA</td>
+<td align="right">79</td>
+<td align="left">-37.01465; 174.83296</td>
+</tr>
+<tr class="odd">
+<td align="left">Wiri Mountain / Matukutūruru</td>
+<td align="left">2023-11-06</td>
+<td align="right">30550</td>
+<td align="right">260</td>
+<td align="left">-37.007334; 174.858441</td>
+</tr>
+<tr class="even">
 <td align="left">Mean Age / Total Height</td>
 <td align="left">NA</td>
-<td align="right">72995</td>
-<td align="right">6133</td>
-<td align="left">n = 23 / 53 (43%)</td>
+<td align="right">68825</td>
+<td align="right">6810</td>
+<td align="left">n = 27 / 53 (51%)</td>
 </tr>
 </tbody>
 </table>
-<p>Tracker last updated 2023-11-05.</p>
+<p>Tracker last updated 2023-11-06.</p>
 <p>Version 1.3 added <code>to visit</code> csv generator for maps.</p>
 <div id="volcanoes-to-visit-generator" class="section level3">
 <h3>Volcanoes to visit generator</h3>
