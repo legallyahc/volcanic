@@ -160,9 +160,9 @@ Version 1.1: added volcano tracker.
 # Yes this hurts me.
 volcanoes <- read_csv("volcanoes.csv")
 visited <- tibble(
-  Volcanoes = c("Maungauika / North Head", "Takarunga / Mount Victoria", "Albert Park Volcano", "Maungakiekie / One Tree Hill", "Te Kōpuke / Tītīkōpuke / Mount St John", "Ōhinerau / Mount Hobson", "Ohuiarangi / Pigeon Mountain", "Te Kopua-o-Matakamokamo / Tank Farm / Tuff Crater", "Onepoto", "Maungarei / Mount Wellington", "Taurere / Taylors Hill", "Whakamuhu / Saint Heliers / Glover Park", "Maungawhau / Mount Eden", "Takaroro / Mount Cambria", "Te Pou Hawaiki", "Te Tātua-a-Riukiuta / Three Kings", "Te Hopua-a-Rangi / Gloucester Park", "Te Pane-o-Mataaho / Māngere Mountain", "Māngere Lagoon", "Ōrākei Basin", "Maungarahiri / Little Rangitoto", "Pukekawa / Auckland Domain", "Grafton Volcano", "Ash Hill", "Wiri Mountain / Matukutūruru", "Matukutureia / McLaughlins Mountain", "Puhinui Craters"),
+  Volcanoes = c("Maungauika / North Head", "Takarunga / Mount Victoria", "Albert Park Volcano", "Maungakiekie / One Tree Hill", "Te Kōpuke / Tītīkōpuke / Mount St John", "Ōhinerau / Mount Hobson", "Ohuiarangi / Pigeon Mountain", "Te Kopua-o-Matakamokamo / Tank Farm / Tuff Crater", "Onepoto", "Maungarei / Mount Wellington", "Taurere / Taylors Hill", "Whakamuhu / Saint Heliers / Glover Park", "Maungawhau / Mount Eden", "Takaroro / Mount Cambria", "Te Pou Hawaiki", "Te Tātua-a-Riukiuta / Three Kings", "Te Hopua-a-Rangi / Gloucester Park", "Te Pane-o-Mataaho / Māngere Mountain", "Māngere Lagoon", "Ōrākei Basin", "Maungarahiri / Little Rangitoto", "Pukekawa / Auckland Domain", "Grafton Volcano", "Ash Hill", "Wiri Mountain / Matukutūruru", "Matukutureia / McLaughlins Mountain", "Puhinui Craters", "Pukewīwī / Puketāpapa / Mount Roskill", "Ōwairaka / Te Ahi-kā-a-Rakataura / Mount Albert"),
   Visited = T, # Redundant column for future filters or whatever idk
-  `Date visited` = c("2023-07-11", "2023-07-11", "2023-07-17", "2023-07-22", "2023-07-22", "2023-07-22", "2023-07-30", "2023-08-03", "2023-08-03", "2023-08-27", "2023-08-27", "2023-08-27", "2023-09-01", "2023-09-17", "2023-09-27", "2023-10-13", "2023-10-14", "2023-10-14", "2023-10-14", "2023-11-04", "2023-11-04", "2023-10-26", "2023-08-05", "2023-11-06", "2023-11-06", "2023-11-06", "2023-11-06")
+  `Date visited` = c("2023-07-11", "2023-07-11", "2023-07-17", "2023-07-22", "2023-07-22", "2023-07-22", "2023-07-30", "2023-08-03", "2023-08-03", "2023-08-27", "2023-08-27", "2023-08-27", "2023-09-01", "2023-09-17", "2023-09-27", "2023-10-13", "2023-10-14", "2023-10-14", "2023-10-14", "2023-11-04", "2023-11-04", "2023-10-26", "2023-08-05", "2023-11-06", "2023-11-06", "2023-11-06", "2023-11-06", "2023-11-13", "2023-11-13")
 )
 
 bigvisited <- inner_join(volcanoes, visited) %>% 
@@ -185,7 +185,7 @@ knitr::kable(
 )
 ```
 
-Tracker last updated 2023-11-06.
+Tracker last updated 2023-11-19.
 
 Version 1.3 added `to visit` csv generator for maps.
 
