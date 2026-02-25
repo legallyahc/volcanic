@@ -1,10 +1,10 @@
 ---
 title: "A collection of data on the Auckland Volcanic Field"
 author: "AHC"
-date: "2023-11-05"
+date: "2026-02-24"
 output: 
   html_document:
-    code_folding: show
+    code_folding: hide
 license: "GPL-3.0-or-later"
 editor_options: 
   markdown: 
@@ -22,13 +22,8 @@ library(XML)
   # `httr` and `XML` for data import
 ```
 
-This is whole thing is drawn from the [Wikipedia article on the Auckland
-Volcanic
-Field](https://en.m.wikipedia.org/w/index.php?title=Auckland_volcanic_field&oldid=1146734511).
-I'm using this as practice in extracting data from the web, making it
-pretty and presentable, all while having a semi-practical use to import
-geospatial specific points for all of the volcanoes. (Anti-skill loss
-project my beloved \<3).
+This is all drawn from the [Wikipedia article on the Auckland Volcanic
+Field](https://en.m.wikipedia.org/w/index.php?title=Auckland_volcanic_field&oldid=1146734511). I'm using this as practice in extracting data from the web, making it pretty and presentable, all while having a semi-practical use to import geospatial specific points for all of the volcanoes. (Anti-skill loss project my beloved \<3).
 
 ```{r import}
 # Import data from Wikipedia
@@ -88,7 +83,7 @@ volcanoes <-
   volcanoes[31,2] <- "130"
   volcanoes[33,2] <- "0.62"
   volcanoes[47,2] <- "28.0"
-    # Yes, this is horribly messy and gross. How'd you know? (but it works soooooo idc)
+    # Yes, this is horribly messy and gross. How'd you know?
 
   volcanoes <- volcanoes %>% 
   mutate(
@@ -100,7 +95,7 @@ volcanoes <-
     `Uncertainty (±)` = as.integer(`Uncertainty (±)`)
   )
   
-  # That one funny name that wouldn't parse perfectly
+  # That one name that wouldn't parse perfectly
   volcanoes[52,1] <- "Whakamuhu / Saint Heliers / Glover Park"
 
 # Data output for however you want it ------------------------------------------
@@ -113,16 +108,9 @@ knitr::kable(volcanoes)
 
 ## Now what?
 
-Well, ain't that the question. For me, I created this because I plan on
-visiting all `r nrow(volcanoes)`(!) historic volcanoes in Auckland.
-Seems fun, and I don't have anything better to do. I went through the
-hassle of making this into a gmaps list, but it's deeply inaccurate (I
-attached each point to a nearby place rather than its coordinates) so I
-used the code below in [Volcanoes to visit generator] to add it to a
-Google My Maps. However, the points seem a little inaccurate... I will
-report back from my adventures with any important changes.
+Well, isn't that the question. For me, I created this because I plan on visiting all `r nrow(volcanoes)`(!) historic volcanoes in Auckland. It seems fun and it seems like a great way to explore the city. I went through the hassle of manually making this into a Google Maps list, but it's deeply inaccurate (I attached each point to a nearby place rather than its coordinates) so I used the code below in [Volcanoes to visit generator] to add it to a Google My Maps. However, the points within the wikipedia table seem a little inaccurate... I will report back from my adventures with any important changes.
 
-Feel free to play with this, if you want a neat little dataset or some
+Feel free to play with this, if you want a neat small dataset or some
 practice in R by trying to reproduce this.
 
 Some fun stats (now easy to do with the data already in R):
@@ -145,19 +133,14 @@ volcanoes %>%
   knitr::kable()
 ```
 
-Anyways. Have fun, enjoy the data! I might leave an update on any
-eventual updates, or perhaps a little table that is updated with info on
-the sites I have visited so far.
+Anyways. Have fun, enjoy the data! I might leave an update on any eventual updates, or perhaps a little table that is updated with info on the sites I have visited so far.
 
-Peace and love \<3 - alice
-
-Version 1.1: added volcano tracker.
+Version 1.1: Added volcano tracker.
 
 ## Volcano Tracker
 
 ```{r visited, message=F}
-# Yes I tried to make a Shiny app. Yes I realized about an hour into it that it would not be static.
-# Yes this hurts me.
+# A previous Alice did not have a better way of recording which volcanoes she had visited yet
 volcanoes <- read_csv("volcanoes.csv")
 visited <- tibble(
   Volcanoes = c("Maungauika / North Head", "Takarunga / Mount Victoria", "Albert Park Volcano", "Maungakiekie / One Tree Hill", "Te Kōpuke / Tītīkōpuke / Mount St John", "Ōhinerau / Mount Hobson", "Ohuiarangi / Pigeon Mountain", "Te Kopua-o-Matakamokamo / Tank Farm / Tuff Crater", "Onepoto", "Maungarei / Mount Wellington", "Taurere / Taylors Hill", "Whakamuhu / Saint Heliers / Glover Park", "Maungawhau / Mount Eden", "Takaroro / Mount Cambria", "Te Pou Hawaiki", "Te Tātua-a-Riukiuta / Three Kings", "Te Hopua-a-Rangi / Gloucester Park", "Te Pane-o-Mataaho / Māngere Mountain", "Māngere Lagoon", "Ōrākei Basin", "Maungarahiri / Little Rangitoto", "Pukekawa / Auckland Domain", "Grafton Volcano", "Ash Hill", "Wiri Mountain / Matukutūruru", "Matukutureia / McLaughlins Mountain", "Puhinui Craters", "Pukewīwī / Puketāpapa / Mount Roskill", "Ōwairaka / Te Ahi-kā-a-Rakataura / Mount Albert"),
@@ -189,11 +172,9 @@ Tracker last updated 2023-11-19.
 
 Version 1.3 added `to visit` csv generator for maps.
 
-### Volcanoes to visit generator
+## Volcanoes to visit generator
 
-You know how I mentioned wanting to have a nice little export into
-google or something to easily know which volcanoes I still had to visit?
-Now is the time!
+You know how I mentioned wanting to have a nice way to export the location of the volcanoes I still had to visit so I'd be able to figure out where to go next a bit easier? Now is the time!
 
 ```{r to visit, message = F}
 volcanoes <- volcanoes %>% 
@@ -205,30 +186,62 @@ volcanoes <- volcanoes %>%
 left_join(volcanoes, visited) %>% 
   filter(is.na(Visited)) %>% 
   write_csv(., "tovisit.csv")
+
+left_join(volcanoes, visited) %>% 
+  write_csv(., "visited.csv")
 ```
 
-And, now that we have that with Lat and Long specified in columns, we
-can import it into a [Google My
-Map](https://www.google.com/maps/d/u/0/edit?mid=1IJyYLAL8ikhqOcV66Ka2mTrnSG_Z_qk&usp=sharing)
-(because you can't with normal gmaps?). A neat thing I found is that you
-can re-import specific layers, which is nice once a couple of volcanoes
-are ticked off the list.
+And, now that we have that with Lat and Long specified in columns, we can import it into our mapping software of choice. A neat thing I found is that you can re-import specific layers, which is nice once a couple of volcanoes are ticked off the list.
+
+Version 1.4 added a `leaflet` map of the volcanoes to the site.
+
+## Map
+
+``` {r map, message = F}
+library(sf)
+library(leaflet)
+
+volcanoes <- read_csv("visited.csv") %>% 
+  mutate(
+    Visited = ifelse(is.na(Visited), F, Visited)
+  )
+
+cooords <- volcanoes %>% 
+  select(Long, Lat) %>% 
+  as.matrix()
+
+coords_rows <- vector(mode = "list", length = nrow(cooords))
+for (rows in 1:nrow(cooords)) {
+  coords_rows[rows] <- list(cooords[rows, ])
+}
+
+geovolcanoes <- map_vec(coords_rows, \(x){st_sfc(st_point(x), crs = 4326)}) %>% cbind(volcanoes, .) %>% st_as_sf()
+
+icons <- awesomeIcons(
+  library = "ion",
+  icon = "",
+  markerColor = sapply(volcanoes$Visited, \(x){if(x == T){"darkblue"}else{"lightgray"}})
+)
+
+leaflet(data = geovolcanoes) %>% 
+  addTiles(urlTemplate = "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
+           attribution = "Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL.") %>% 
+  addAwesomeMarkers(~Long, ~Lat, icon = icons, label = ~Volcanoes) %>% 
+  addLegend(
+    position = "bottomright",
+    colors = c("darkblue", "lightgray"),
+    labels = c("Visited", "Unvisited")
+  )
+```
 
 ## Code availability
 
-The source code for this project is available at
-<https://github.com/legallyahc/volcanic>, with all work done right in
-this RMarkdown file (`dataset.rmd`) :3.
+The source code for this project is available at <https://github.com/legallyahc/volcanic>, with all work done right in this RMarkdown file (`dataset.rmd`)!
 
 ## Copyright
 
-This project is based on information from Wikipedia which was authored
-by Wikipedia contributors and is licensed under [CC-BY-SA
-4.0](https://creativecommons.org/licenses/by-sa/4.0/). This project is
-licensed under the [GNU General Public License
-v3](https://www.gnu.org/licenses/gpl-3.0.html) or later, a compatible
-license with CC-BY-SA 4.0.
+This project is based on information from Wikipedia which was authored by Wikipedia contributors and is licensed under [CC-BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). This project is licensed under the [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html) or later, a compatible license with CC-BY-SA 4.0.
 
 <br>
 
-Originally published on 2023-07-16. Version 1.3.1.
+Originally published on 2023-07-16. Version 1.4.0.
